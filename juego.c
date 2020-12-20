@@ -2,7 +2,7 @@
 #include <ctype.h>   // toupper
 #include <stdio.h>   // printf, scanf
 #include <stdlib.h>  // rand
-#include <unistd.h>  
+#include <unistd.h>  // getpid
 
 #define ERROR_MINA_ENCONTRADA 1
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
