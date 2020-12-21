@@ -15,41 +15,40 @@
 #define CANTIDAD_MINAS \
 #define DEBUG 0  
 
-int obtenerMinasCercanas(int fila, int columna, char
-tablero[FILAS][COLUMNAS]){
-int conteo = 0, finalinicio,filaFin,colunmalinicio,columnaFin;
-if (fila<=0){
-finalinicio=0;
-}else{
-finalinicio=fila-1;
-}
+int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
+  int conteo = 0, filaInicio, filaFin, columnaInicio, columnaFin;
+  if (fila <= 0) {
+    filaInicio = 0;
+  } else {
+    filaInicio = fila - 1;
+  }
 
-if(fila + 1>=FILAS){
-filaFin = FILAS - 1;
-}else{
-filaFin = fila + 1;
-}
+  if (fila + 1 >= FILAS) {
+    filaFin = FILAS - 1;
+  } else {
+    filaFin = fila + 1;
+  }
 
-if(columna<=0){
-columnalinicio=0;
-}else{
-columnalinicio = columna - 1;
-}
-if (columna +1 >=COLUMNAS){
-columnaFin = COLUMNAS - 1;
-}else{
-columnaFin=columna+1;
-}
-int m;
-for (m=filainicio;m<=filaFin;m++){
-int l;
-for (l= columnainicio;l<=columnaFin;l++){
-if (tablero[m][l]MINA){
-conteo++;
-}
-}
-}
-return conteo;
+  if (columna <= 0) {
+    columnaInicio = 0;
+  } else {
+    columnaInicio = columna - 1;
+  }
+  if (columna + 1 >= COLUMNAS) {
+    columnaFin = COLUMNAS - 1;
+  } else {
+    columnaFin = columna + 1;
+  }
+  int m;
+  for (m = filaInicio; m <= filaFin; m++) {
+    int l;
+    for (l = columnaInicio; l <= columnaFin; l++) {
+      if (tablero[m][l] == MINA) {
+        conteo++;
+      }
+    }
+  }
+  return conteo;
 }
 int aleatorioEnRango(int minimo, int maximo){
   return minimo + rand() / (RAND_MAX / (maximo - minimo + 1) + 1);
