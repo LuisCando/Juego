@@ -3,8 +3,7 @@
 #include <stdio.h>   
 #include <stdlib.h> 
 #include <unistd.h>
-
-#define ERROR_MINA_ENCONTRADA 1  
+#define ERROR_MINA_ENCONTRADA 1
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
 #define ERROR_NINGUNO 3
 #define COLUMNAS 5
@@ -13,6 +12,7 @@
 #define ESPACIO_DESCUBIERTO ' '
 #define MINA '*'
 #define CANTIDAD_MINAS \
+  5  
 #define DEBUG 0  
 
 int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
@@ -50,6 +50,7 @@ int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   }
   return conteo;
 }
+
 int aleatorioEnRango(int minimo, int maximo){
   return minimo + rand() / (RAND_MAX / (maximo - minimo + 1) + 1);
 }
