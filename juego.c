@@ -1,8 +1,6 @@
 #include <assert.h>  
-#include <ctype.h>  
 #include <stdio.h>   
 #include <stdlib.h> 
-#include <unistd.h>
 
 #define ERROR_MINA_ENCONTRADA 1
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
