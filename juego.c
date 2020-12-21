@@ -148,7 +148,6 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
   }
 }
 
-
 int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
 
   filaLetra = toupper(filaLetra);
