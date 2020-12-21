@@ -4,7 +4,6 @@
 #include <stdlib.h> 
 #include <unistd.h>
 
-
 #define ERROR_MINA_ENCONTRADA 1  
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
 #define ERROR_NINGUNO 3
@@ -15,6 +14,7 @@
 #define MINA '*'
 #define CANTIDAD_MINAS \
 #define DEBUG 0  
+
 int obtenerMinasCercanas(int fila, int columna, char
 tablero[FILAS][COLUMNAS]){
 int conteo = 0, finalinicio,filaFin,colunmalinicio,columnaFin;
@@ -135,3 +135,36 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
         int minasCercanas = obtenerMinasCercanas(l, m, tablero);
         verdaderaLetra = enteroACaracter(minasCercanas);
       }
+      if (letraActual == MINA && (DEBUG || deberiaMostrarMinas)) {
+        verdaderaLetra = MINA;
+      }
+      printf("| %c ", verdaderaLetra);
+      if (m + 1 == COLUMNAS) {
+        printf("|");
+      }
+    }
+    printf("\n");
+    imprimirSeparadorFilas();
+  }
+}
+
+
+int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
+
+  filaLetra = toupper(filaLetra);
+
+  columna--;
+
+  int fila = filaLetra - 'A';
+  assert(columna < COLUMNAS && columna >= 0);
+  assert(fila < FILAS && fila >= 0);
+  if (tablero[fila][columna] == MINA) {
+    return ERROR_MINA_ENCONTRADA;
+  }
+  if (tablero[fila][columna] == ESPACIO_DESCUBIERTO) {
+    return ERROR_ESPACIO_YA_DESCUBIERTO;
+  }
+
+  tablero[fila][columna] = ESPACIO_DESCUBIERTO;
+  return ERROR_NINGUNO;
+}
