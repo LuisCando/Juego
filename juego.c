@@ -7,16 +7,16 @@
 #define ERROR_MINA_ENCONTRADA 1
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
 #define ERROR_NINGUNO 3
-
-#define COLUMNAS 8
-#define FILAS 8
+#define COLUMNAS 8 // "tamaño del cuadro del busca minas"
+#define FILAS 8		// ""
 #define ESPACIO_SIN_DESCUBRIR '.'
 #define ESPACIO_DESCUBIERTO ' '
 #define MINA '*'
 #define CANTIDAD_MINAS \
-  20
+  20 //cuántas minas se va a colocar en el tablero de manera aleatoria
 #define DEBUG 0  
 
+// Devuelve el número de minas que hay cercanas en determinada coordenada
 int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   int conteo = 0, filaInicio, filaFin, columnaInicio, columnaFin;
   if (fila <= 0) {
@@ -52,10 +52,13 @@ int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   }
   return conteo;
 }
+
+// Devuelve un número aleatorio entre minimo y maximo, incluyendo a minimo y maximo
 int aleatorioEnRango(int minimo, int maximo){
   return minimo + rand() / (RAND_MAX / (maximo - minimo + 1) + 1);
 }
 
+// Rellena el tablero de espacios sin descubrir
 void iniciarTablero(char tablero[FILAS][COLUMNAS]) {
   int l;
   for (l = 0; l < FILAS; l++) {
@@ -66,10 +69,12 @@ void iniciarTablero(char tablero[FILAS][COLUMNAS]) {
   }
 }
 
+// Coloca una mina en las coordenadas indicadas
 void colocarMina(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   tablero[fila][columna] = MINA;
 }
 
+// Coloca minas de manera aleatoria. El número depende del #define CANTIDAD_MINAS
 void colocarMinasAleatoriamente(char tablero[FILAS][COLUMNAS]) {
   int l;
   for (l = 0; l < CANTIDAD_MINAS; l++) {
@@ -113,6 +118,7 @@ void imprimirEncabezado(){
   printf("\n");
 }
 
+// Convierte un int a un char. Por ejemplo 0 a '0'
 char enteroACaracter(int numero) {
   return numero + '0';
 }
@@ -124,18 +130,24 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
   int l;
   for (l=0;l<FILAS;l++) {
     int m;
-
+// Imprimir la letra de la fila
   printf("| %c ", letra);
     letra++;
     for(m= 0;m<COLUMNAS; m++) {
+    // No le vamos a mostrar al jugador si hay una mina
       char verdaderaLetra = ESPACIO_SIN_DESCUBRIR;
       char letraActual = tablero[l][m];
       if (letraActual == MINA) {
         verdaderaLetra = ESPACIO_SIN_DESCUBRIR;
       }else if(letraActual == ESPACIO_DESCUBIERTO){
+      	
+      	// Si ya lo abrió, entonces mostramos las minas cercanas
         int minasCercanas = obtenerMinasCercanas(l, m, tablero);
         verdaderaLetra = enteroACaracter(minasCercanas);
       }
+      
+      // Si DEBUG está en 1, o debería mostrar las minas (porque perdió o ganó)
+      // mostramos la mina original
       if (letraActual == MINA && (DEBUG || deberiaMostrarMinas)) {
         verdaderaLetra = MINA;
       }
@@ -149,12 +161,15 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
   }
 }
 
+// Recibe la fila, columna y tablero. La fila y columna deben ser tal y como las
+// proporciona el usuario. Es decir, la columna debe comenzar en 1 (no en cero
+// como si fuera un índice) y la fila debe ser una letra
 int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
-
+   // Convertir a mayúscula
   filaLetra = toupper(filaLetra);
-
+	// Restamos 1 porque usamos la columna como índice
   columna--;
-
+	// Convertimos la letra a índice
   int fila = filaLetra - 'A';
   assert(columna < COLUMNAS && columna >= 0);
   assert(fila < FILAS && fila >= 0);
@@ -164,10 +179,12 @@ int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
   if (tablero[fila][columna] == ESPACIO_DESCUBIERTO) {
     return ERROR_ESPACIO_YA_DESCUBIERTO;
   }
-
+  // Si no hay error, colocamos el espacio descubierto
   tablero[fila][columna] = ESPACIO_DESCUBIERTO;
   return ERROR_NINGUNO;
 }
+
+// Para saber si el usuario ganó
 int noHayCasillasSinAbrir(char tablero[FILAS][COLUMNAS]) {
   int l;
   for (l = 0; l < FILAS; l++) {
@@ -186,11 +203,11 @@ int main() {
   printf("** BUSCAMINAS **\n");
   char tablero[FILAS][COLUMNAS];
   int deberiaMostrarMinas = 0;
-
+	// Alimentar rand
   srand(getpid());
   iniciarTablero(tablero);
   colocarMinasAleatoriamente(tablero);
-
+	// Ciclo infinito. Se rompe si gana o pierde, y eso se define con "deberiaMostrarMinas"
   while (1) {
     imprimirTablero(tablero, deberiaMostrarMinas);
     if (deberiaMostrarMinas) {
