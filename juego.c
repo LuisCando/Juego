@@ -88,3 +88,36 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
         int minasCercanas = obtenerMinasCercanas(l, m, tablero);
         verdaderaLetra = enteroACaracter(minasCercanas);
       }
+      if (letraActual == MINA && (DEBUG || deberiaMostrarMinas)) {
+        verdaderaLetra = MINA;
+      }
+      printf("| %c ", verdaderaLetra);
+      if (m + 1 == COLUMNAS) {
+        printf("|");
+      }
+    }
+    printf("\n");
+    imprimirSeparadorFilas();
+  }
+}
+
+
+int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
+
+  filaLetra = toupper(filaLetra);
+
+  columna--;
+
+  int fila = filaLetra - 'A';
+  assert(columna < COLUMNAS && columna >= 0);
+  assert(fila < FILAS && fila >= 0);
+  if (tablero[fila][columna] == MINA) {
+    return ERROR_MINA_ENCONTRADA;
+  }
+  if (tablero[fila][columna] == ESPACIO_DESCUBIERTO) {
+    return ERROR_ESPACIO_YA_DESCUBIERTO;
+  }
+
+  tablero[fila][columna] = ESPACIO_DESCUBIERTO;
+  return ERROR_NINGUNO;
+}
