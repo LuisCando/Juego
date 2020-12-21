@@ -19,9 +19,9 @@ int obtenerMinasCercanas(int fila, int columna, char
 tablero[FILAS][COLUMNAS]){
 int conteo = 0, finalinicio,filaFin,colunmalinicio,columnaFin;
 if (fila<=0){
-filalinicio=0;
+finalinicio=0;
 }else{
-filslinicio=fila-1;
+finalinicio=fila-1;
 }
 
 if(fila + 1>=FILAS){
