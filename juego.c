@@ -168,3 +168,50 @@ int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
   tablero[fila][columna] = ESPACIO_DESCUBIERTO;
   return ERROR_NINGUNO;
 }
+int noHayCasillasSinAbrir(char tablero[FILAS][COLUMNAS]) {
+  int l;
+  for (l = 0; l < FILAS; l++) {
+    int m;
+    for (m = 0; m < COLUMNAS; m++) {
+      char actual = tablero[l][m];
+      if (actual == ESPACIO_SIN_DESCUBRIR) {
+        return 0;
+      }
+    }
+  }
+  return 1;
+}
+
+int main() {
+  printf("** BUSCAMINAS **\n");
+  char tablero[FILAS][COLUMNAS];
+  int deberiaMostrarMinas = 0;
+
+  srand(getpid());
+  iniciarTablero(tablero);
+  colocarMinasAleatoriamente(tablero);
+
+  while (1) {
+    imprimirTablero(tablero, deberiaMostrarMinas);
+    if (deberiaMostrarMinas) {
+      break;
+    }
+    int columna;
+    char fila;
+    printf("Ingresa la fila: ");
+    scanf(" %c", &fila);
+    printf("Ingresa la columna: ");
+    scanf("%d", &columna);
+    int status = abrirCasilla(fila, columna, tablero);
+    if (noHayCasillasSinAbrir(tablero)) {
+      printf("Has ganado\n");
+      deberiaMostrarMinas = 1;
+    } else if (status == ERROR_ESPACIO_YA_DESCUBIERTO) {
+      printf("Ya has abierto esta casilla\n");
+    } else if (status == ERROR_MINA_ENCONTRADA) {
+      printf("Has perdido\n");
+      deberiaMostrarMinas = 1;
+    }
+  }
+  return 0;
+}
