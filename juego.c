@@ -77,3 +77,61 @@ void colocarMinasAleatoriamente(char tablero[FILAS][COLUMNA]) {
     colocarMina(fila, columna, tablero);
   }
 }
+void imprimirSeparadorEncabezado() {
+  int m;
+  for (m=0;m<=COLUMNAS;m++) {
+    printf("----");
+    if (m+2==COLUMNAS){
+      printf("-");
+    }
+  }
+  printf("\n");
+}
+
+void imprimirSeparadorFilas() {
+  int m;
+  for (m=0;m<=COLUMNAS;m++) {
+    printf("+---");
+    if (m == COLUMNAS){
+      printf("+");
+    }
+  }
+  printf("\n");
+}
+
+void imprimirEncabezado(){
+  imprimirSeparadorEncabezado();
+  printf("|   ");
+  int l;
+  for(l=0;l<COLUMNAS;l++) {
+    printf("| %d ", l + 1);
+    if (l + 1 == COLUMNAS) {
+      printf("|");
+    }
+  }
+  printf("\n");
+}
+
+char enteroACaracter(int numero) {
+  return numero + '0';
+}
+
+void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
+  imprimirEncabezado();
+  imprimirSeparadorEncabezado();
+  char letra = 'A';
+  int l;
+  for (l=0;l<FILAS;l++) {
+    int m;
+
+  printf("| %c ", letra);
+    letra++;
+    for(m= 0;m<COLUMNAS; m++) {
+      char verdaderaLetra = ESPACIO_SIN_DESCUBRIR;
+      char letraActual = tablero[l][m];
+      if (letraActual == MINA) {
+        verdaderaLetra = ESPACIO_SIN_DESCUBRIR;
+      }else if(letraActual == ESPACIO_DESCUBIERTO){
+        int minasCercanas = obtenerMinasCercanas(l, m, tablero);
+        verdaderaLetra = enteroACaracter(minasCercanas);
+      }
