@@ -5,16 +5,16 @@
 #define ERROR_MINA_ENCONTRADA 1
 #define ERROR_ESPACIO_YA_DESCUBIERTO 2
 #define ERROR_NINGUNO 3
-#define COLUMNAS 8 // "tamaño del cuadro del busca minas"
+#define COLUMNAS 8 // "tamaÃ±o del cuadro del busca minas"
 #define FILAS 8		// ""
 #define ESPACIO_SIN_DESCUBRIR '.'
 #define ESPACIO_DESCUBIERTO ' '
 #define MINA '*'
 #define CANTIDAD_MINAS \
-  20 //cuántas minas se va a colocar en el tablero de manera aleatoria
+  20 //cuÃ¡ntas minas se va a colocar en el tablero de manera aleatoria
 #define DEBUG 0  
 
-// Devuelve el número de minas que hay cercanas en determinada coordenada
+// Devuelve el nÃºmero de minas que hay cercanas en determinada coordenada
 int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   int conteo = 0, filaInicio, filaFin, columnaInicio, columnaFin;
   if (fila <= 0) {
@@ -51,7 +51,7 @@ int obtenerMinasCercanas(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   return conteo;
 }
 
-// Devuelve un número aleatorio entre minimo y maximo, incluyendo a minimo y maximo
+// Devuelve un nÃºmero aleatorio entre minimo y maximo, incluyendo a minimo y maximo
 int aleatorioEnRango(int minimo, int maximo){
   return minimo + rand() / (RAND_MAX / (maximo - minimo + 1) + 1);
 }
@@ -72,7 +72,7 @@ void colocarMina(int fila, int columna, char tablero[FILAS][COLUMNAS]) {
   tablero[fila][columna] = MINA;
 }
 
-// Coloca minas de manera aleatoria. El número depende del #define CANTIDAD_MINAS
+// Coloca minas de manera aleatoria. El nÃºmero depende del #define CANTIDAD_MINAS
 void colocarMinasAleatoriamente(char tablero[FILAS][COLUMNAS]) {
   int l;
   for (l = 0; l < CANTIDAD_MINAS; l++) {
@@ -139,12 +139,12 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
         verdaderaLetra = ESPACIO_SIN_DESCUBRIR;
       }else if(letraActual == ESPACIO_DESCUBIERTO){
       	
-      	// Si ya lo abrió, entonces mostramos las minas cercanas
+      	// Si ya lo abriÃ³, entonces mostramos las minas cercanas
         int minasCercanas = obtenerMinasCercanas(l, m, tablero);
         verdaderaLetra = enteroACaracter(minasCercanas);
       }
       
-      // Si DEBUG está en 1, o debería mostrar las minas (porque perdió o ganó)
+      // Si DEBUG estÃ¡ en 1, o deberÃ­a mostrar las minas (porque perdiÃ³ o ganÃ³)
       // mostramos la mina original
       if (letraActual == MINA && (DEBUG || deberiaMostrarMinas)) {
         verdaderaLetra = MINA;
@@ -161,13 +161,13 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS], int deberiaMostrarMinas) {
 
 // Recibe la fila, columna y tablero. La fila y columna deben ser tal y como las
 // proporciona el usuario. Es decir, la columna debe comenzar en 1 (no en cero
-// como si fuera un índice) y la fila debe ser una letra
+// como si fuera un Ã­ndice) y la fila debe ser una letra
 int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
-   // Convertir a mayúscula
+   // Convertir a mayÃºscula
   filaLetra = toupper(filaLetra);
-	// Restamos 1 porque usamos la columna como índice
+	// Restamos 1 porque usamos la columna como Ã­ndice
   columna--;
-	// Convertimos la letra a índice
+	// Convertimos la letra a Ã­ndice
   int fila = filaLetra - 'A';
   assert(columna < COLUMNAS && columna >= 0);
   assert(fila < FILAS && fila >= 0);
@@ -182,7 +182,7 @@ int abrirCasilla(char filaLetra, int columna, char tablero[FILAS][COLUMNAS]) {
   return ERROR_NINGUNO;
 }
 
-// Para saber si el usuario ganó
+// Para saber si el usuario ganÃ³
 int noHayCasillasSinAbrir(char tablero[FILAS][COLUMNAS]) {
   int l;
   for (l = 0; l < FILAS; l++) {
@@ -205,7 +205,7 @@ int main() {
   srand(getpid());
   iniciarTablero(tablero);
   colocarMinasAleatoriamente(tablero);
-	// Ciclo infinito. Se rompe si gana o pierde, y eso se define con "deberiaMostrarMinas"
+	// Ciclo infinito. Se rompe si gana o pierde, y eso se define con "deberiaMostrarMinas" XD
   while (1) {
     imprimirTablero(tablero, deberiaMostrarMinas);
     if (deberiaMostrarMinas) {
